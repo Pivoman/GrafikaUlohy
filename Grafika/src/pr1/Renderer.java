@@ -14,15 +14,6 @@ import java.awt.event.KeyEvent;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-/**
-* Ukazka pro praci s shadery v GLSL:
-* nacteni shaderu ze Stringu,
-* upraveno pro JOGL 2.3.0 a vyssi
-* 
-* @author PGRF FIM UHK
-* @version 2.0
-* @since   2015-09-05 
-*/
 public class Renderer implements GLEventListener, MouseListener,
 		MouseMotionListener, KeyListener {
 
@@ -34,14 +25,6 @@ public class Renderer implements GLEventListener, MouseListener,
 
 	public void init(GLAutoDrawable glDrawable) {
 		GL2 gl = glDrawable.getGL().getGL2();
-
-		System.out.println("Init GL is " + gl.getClass().getName());
-		System.out.println("OpenGL version " + gl.glGetString(GL2.GL_VERSION));
-		System.out.println("OpenGL vendor " + gl.glGetString(GL2.GL_VENDOR));
-		System.out
-				.println("OpenGL renderer " + gl.glGetString(GL2.GL_RENDERER));
-		System.out.println("OpenGL extension "
-				+ gl.glGetString(GL2.GL_EXTENSIONS));
 
 		// overeni podpory shaderu
 		String extensions = gl.glGetString(GL2.GL_EXTENSIONS);
