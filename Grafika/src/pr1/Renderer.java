@@ -33,80 +33,25 @@ public class Renderer implements GLEventListener, MouseListener,
 		MouseMotionListener, KeyListener {
 
 	int width, height, ox, oy;
-
 	OGLBuffers buffers, grid;
-
 	int shaderProgram, shaderGrid, locMat, locMatGrid, locLightGrid;
-	
 	OGLTexture texture;
-
 	Camera cam = new Camera();
 	Mat4 proj;
 	Vec3D lighPos = new Vec3D(4, 2, 1); //svìtlo, pošleme do uniformu ve VS
 
 	public void init(GLAutoDrawable glDrawable) {
 		GL2 gl = glDrawable.getGL().getGL2();
-
-		//shaderProgram = ShaderUtils.loadProgram(gl, "./shader/glsl03/texture");
+		gl.glClearColor(1f, 0f, 0f, 1f);
 		shaderGrid = ShaderUtils.loadProgram(gl, "./shader/glsl03/grid");
-		
-		//createBuffers(gl);
 		grid = GeometryGenerator.generateGrid(gl, "inPosition", 10, 10);
-
-		//locMat = gl.glGetUniformLocation(shaderProgram, "mat");
 		locMatGrid = gl.glGetUniformLocation(shaderGrid, "mat");
 		locLightGrid = gl.glGetUniformLocation(shaderGrid, "lightPos");
-
-		//texture = new OGLTexture(gl, "./textures/mosaic.jpg");
-		
 		cam.setPosition(new Vec3D(5, 5, 2.5));
 		cam.setAzimuth(Math.PI * 1.25);
 		cam.setZenith(Math.PI * -0.125);
 
 		gl.glEnable(GL2.GL_DEPTH_TEST);
-	}
-
-	void createBuffers(GL2 gl) {
-		float[] cube = {
-				// dolni podstava
-				0, 0, 0,	0, 0, -1,	0, 0, 
-				1, 0, 0,	0, 0, -1,	1, 0, 
-				1, 1, 0,	0, 0, -1,	1, 1, 
-				0, 1, 0,	0, 0, -1,	0, 1,
-				// horni podstava
-				0, 0, 1,	0, 0, 1,	0, 0,
-				1, 0, 1,	0, 0, 1,	1, 0,
-				1, 1, 1,	0, 0, 1,	1, 1,
-				0, 1, 1,	0, 0, 1,	0, 1,
-				// stena x+
-				1, 0, 0,	1, 0, 0,	0, 0,
-				1, 1, 0,	1, 0, 0,	1, 0,
-				1, 1, 1,	1, 0, 0,	1, 1,
-				1, 0, 1,	1, 0, 0,	0, 1,
-				// stena x-
-				0, 0, 0,	-1, 0, 0,	0, 0,
-				0, 1, 0,	-1, 0, 0,	1, 0,
-				0, 1, 1,	-1, 0, 0,	1, 1,
-				0, 0, 1,	-1, 0, 0,	0, 1,
-				// stena y+
-				0, 1, 0,	0, 1, 0,	0, 0,
-				1, 1, 0,	0, 1, 0,	1, 0,
-				1, 1, 1,	0, 1, 0,	1, 1,
-				0, 1, 1,	0, 1, 0,	0, 1,
-				// stena y-
-				0, 0, 0,	0, -1, 0,	0, 0,
-				1, 0, 0,	0, -1, 0,	1, 0,
-				1, 0, 1,	0, -1, 0,	1, 1,
-				0, 0, 1,	0, -1, 0, 	0, 1
-		};
-
-		OGLBuffers.Attrib[] attributes = {
-				new OGLBuffers.Attrib("inPosition", 3),
-				new OGLBuffers.Attrib("inNormal", 3),
-				new OGLBuffers.Attrib("inTextureCoordinates", 2)
-		};
-
-		buffers = new OGLBuffers(gl, cube, attributes, null);
 	}
 	
 	public void display(GLAutoDrawable glDrawable) {
@@ -114,6 +59,7 @@ public class Renderer implements GLEventListener, MouseListener,
 		//glClearColor - barva pozadi
 		gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+		
 		//krychle
 		//gl.glUseProgram(shaderProgram); 
 		//gl.glUniformMatrix4fv(locMat, 1, false,

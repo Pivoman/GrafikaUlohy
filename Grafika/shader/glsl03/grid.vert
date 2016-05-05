@@ -9,7 +9,7 @@ float PI = 3.1415927;
 
 vec3 paramSurf(vec2 uv){
 	float a = 2 * PI * uv.x; //azimut
-	float t = 1 * uv.y; //zenit
+	float t = 2 * uv.y-1; //zenit
 	return vec3(t * cos(a), t * sin(a), t);
 }
 
@@ -21,10 +21,10 @@ void main() {
 	vec3 lightVec = normalize(lightPos-position);
 	float diffuse = max(dot(n, lightVec), 0.0); //skalarni soucin
 	gl_Position = mat * vec4(position, 1.0);
-	//vertColor = vec3(inPosition, 0.0);
-	//vertColor = n;
-	//vertColor = vec3(diffuse);
-	//texCoord = inPosition;
+	vertColor = vec3(inPosition, 0.0);
+	vertColor = n;
+	vertColor = vec3(diffuse);
+	texCoord = inPosition;
 	
 	//odvozeni souradnice do textury z pozice a normaly: 
 	//int aux = int(dot(abs(inNormal) * vec3(0, 1, 2), vec3(1, 1, 1)));
